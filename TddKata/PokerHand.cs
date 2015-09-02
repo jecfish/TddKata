@@ -21,10 +21,10 @@ namespace Poker
 
             foreach (var player in players)
             {
-                Card[] winningCards;
                 player.Key.Hand = player.Value.ToCardArray();
-                player.Key.Rank = GetPattern(player.Key.Hand, out winningCards);
-                player.Key.WinningCards = winningCards;
+                var rankPatter = GetPattern(player.Key.Hand);
+                player.Key.Rank = rankPatter.RankingOrder;
+                player.Key.WinningCards = rankPatter.GetWinningCards();
             }
 
             var highestRank = players.Keys.Max(x => x.Rank);
@@ -58,34 +58,33 @@ namespace Poker
             return result;
         }
 
-        public static PokerRankingOrder GetPattern(Card[] cards, out Card[] winningCards)
+        public static IPokerRank GetPattern(Card[] cards)
         {
-            var patternArr = new Dictionary<PokerRankingOrder, IPokerRank>()
+            var patternArr = new IPokerRank[]
             {
-                { PokerRankingOrder.RoyalFlush,  new RankRoyalFlush(cards) },
-                { PokerRankingOrder.StraightFlush, new RankStraightFlush(cards) },
-                { PokerRankingOrder.FourOfAKind, new RankFourOfAKind(cards) },
-                { PokerRankingOrder.FullHouse, new RankFullHouse(cards) },
-                { PokerRankingOrder.Flush, new RankFlush(cards) },
-                { PokerRankingOrder.Straight, new RankStraight(cards) },
-                { PokerRankingOrder.ThreeOfAKind, new RankThreeOfAKind(cards) },
-                { PokerRankingOrder.TwoPairs, new RankTwoPairs(cards) },
-                { PokerRankingOrder.Pair, new RankPairs(cards) },
-                { PokerRankingOrder.HighCard, new RankHighCard(cards) },
+                new RankRoyalFlush(cards), 
+                new RankStraightFlush(cards), 
+                new RankFourOfAKind(cards), 
+                new RankFullHouse(cards),
+                new RankFlush(cards),
+                new RankStraight(cards), 
+                new RankThreeOfAKind(cards),
+                new RankTwoPairs(cards), 
+                new RankPairs(cards), 
+                new RankHighCard(cards) 
             };
 
-            foreach (var pattern in patternArr.Where(pattern => pattern.Value.Get()))
+            foreach (var pattern in patternArr.Where(pattern => pattern.Get()))
             {
-                winningCards = pattern.Value.GetWinningCards();
-                return pattern.Key;
+                return pattern;
             }
 
             throw new Exception("No pattern found.");
         }
 
-        public static PokerRankingOrder GetPattern(string cards, out Card[] winningCards)
+        public static IPokerRank GetPattern(string cards)
         {
-            var result = GetPattern(cards.ToCardArray(), out winningCards);
+            var result = GetPattern(cards.ToCardArray());
             return result;
         }
     }

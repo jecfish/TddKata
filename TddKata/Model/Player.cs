@@ -11,11 +11,5 @@ namespace Poker.Model
         {
             Name = name;
         }
-
-        public Player(string name, Card[] hand)
-        {
-            Name = name;
-            Hand = hand;
-        }
     }
 }

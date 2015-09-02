@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Poker.Extensions;
 using Poker.Model;
 
+
 namespace Poker
 {
     [TestFixture]
@@ -53,9 +54,8 @@ namespace Poker
         [TestCase("4S 5D 6S 7H AS", PokerRankingOrder.HighCard)]
         public void Should_Get_CorrectPattern(string cards, PokerRankingOrder expected)
         {
-            Card[] winningCards;
-            var answer = PokerHand.GetPattern(cards, out winningCards);
-            Assert.AreEqual(expected, answer);
+            var answer = PokerHand.GetPattern(cards);
+            Assert.AreEqual(expected, answer.RankingOrder);
         }
     }
 }
