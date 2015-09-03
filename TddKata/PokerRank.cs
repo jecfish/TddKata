@@ -18,13 +18,14 @@ namespace Poker
 
 
         public abstract Card[] GetWinningCards();
+
+        public abstract PokerRankingOrder RankingOrder { get; }
     }
 
     #region Poker Rank Implementation
 
     public class RankRoyalFlush : PokerRank
     {
-
         public override bool Get()
         {
             var valueGroup = Cards.GroupBy(x => x.DenoteValue);
@@ -38,13 +39,18 @@ namespace Poker
 
         public override Card[] GetWinningCards()
         {
-            return null;
+            return Cards;
         }
 
 
         public RankRoyalFlush(Card[] cards)
             : base(cards)
         {
+        }
+
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.RoyalFlush; }
         }
     }
 
@@ -69,6 +75,10 @@ namespace Poker
             : base(cards)
         {
         }
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.StraightFlush; }
+        }
     }
 
     public class RankFourOfAKind : PokerRank
@@ -89,6 +99,10 @@ namespace Poker
         public RankFourOfAKind(Card[] cards)
             : base(cards)
         {
+        }
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.FourOfAKind; }
         }
     }
 
@@ -115,6 +129,12 @@ namespace Poker
             : base(cards)
         {
         }
+
+
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.FullHouse; }
+        }
     }
 
     public class RankFlush : PokerRank
@@ -137,6 +157,10 @@ namespace Poker
             : base(cards)
         {
         }
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.Flush; }
+        }
     }
 
     public class RankStraight : PokerRank
@@ -158,6 +182,11 @@ namespace Poker
         public RankStraight(Card[] cards)
             : base(cards)
         {
+        }
+
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.Straight; }
         }
     }
 
@@ -182,6 +211,12 @@ namespace Poker
         public RankThreeOfAKind(Card[] cards)
             : base(cards)
         {
+        }
+
+
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.ThreeOfAKind; }
         }
     }
 
@@ -212,6 +247,12 @@ namespace Poker
             : base(cards)
         {
         }
+
+
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.TwoPairs; }
+        }
     }
 
     public class RankPairs : PokerRank
@@ -240,6 +281,12 @@ namespace Poker
             : base(cards)
         {
         }
+
+
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.Pair; }
+        }
     }
 
     public class RankHighCard : PokerRank
@@ -263,6 +310,12 @@ namespace Poker
         public RankHighCard(Card[] cards)
             : base(cards)
         {
+        }
+
+
+        public override PokerRankingOrder RankingOrder
+        {
+            get { return PokerRankingOrder.HighCard; }
         }
     }
 
